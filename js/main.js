@@ -8,6 +8,8 @@ const Main = {
 
     cacheSelectors: function() {
         this.$checkButtons = document.querySelectorAll('.check')
+        this.$inputTask = document.querySelector('#input-task')
+        this.$list = document.querySelector('#list')
     }, /*Função responsável por selecionar os elementos do html e armazena-los numa variável */
 
     bindEvents: function() {
@@ -16,6 +18,8 @@ const Main = {
         this.$checkButtons.forEach(function(button) {
             button.onclick = self.Events.checkButton_click
         })
+
+        this.$inputTask.onkeypress = self.Events.inputTask_keypress.bind(this)
     }, /*Função responsável por adicionar eventos nos elementos html */
 
 
@@ -30,6 +34,25 @@ const Main = {
                 li.classList.remove('done')
             
 
+        },
+
+        inputTask_keypress: function(e) {
+            const key = e.key
+            const value = e.target.value
+
+            if(key === 'Enter'){
+                this.$list.innerHTML += `
+                    <li>
+                        <div class="check"></div>
+                        <label class="task">
+                            ${value}
+                         </label>
+                        <button class="remove"></button>
+                    </li>
+                `
+
+                e.target.value = ''
+            }
         }
     }
 }
